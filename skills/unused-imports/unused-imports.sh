@@ -11,9 +11,13 @@ set -uo pipefail
 
 root=$(git rev-parse --show-toplevel)
 
+prefix() { # $1: a directory; prints each input line under it, the directory read as data, never as code
+    PREFIX="$1/" awk '{print ENVIRON["PREFIX"] $0}'
+}
+
 changed() { # $1: a repository's path; prints its uncommitted .java files as paths under it
     git -C "$1" status --porcelain --untracked-files=all 2>/dev/null \
-        | awk '$1 != "D" {print $NF}' | grep '\.java$' | sed "s|^|$1/|"
+        | awk '$1 != "D" {print $NF}' | grep '\.java$' | prefix "$1"
 }
 
 files=()
@@ -21,10 +25,10 @@ if [[ $# -eq 0 ]]; then
     mapfile -t files < <(
         changed "$root"
         git -C "$root" submodule foreach --quiet 'echo "$sm_path"' 2>/dev/null \
-            | while read -r sub; do changed "$root/$sub"; done
+            | while IFS= read -r sub; do changed "$root/$sub"; done
     )
 elif [[ $1 == --since ]]; then
-    mapfile -t files < <(git diff --name-only --diff-filter=d "$2" -- '*.java' | sed "s|^|$root/|"; changed "$root")
+    mapfile -t files < <(git diff --name-only --diff-filter=d "$2" -- '*.java' | prefix "$root"; changed "$root")
 else
     files=("$@")
 fi

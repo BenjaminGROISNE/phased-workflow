@@ -1,0 +1,10 @@
+{
+  "name": "phased-workflow",
+  "version": "0.1.0",
+  "description": "Working rules, phase recaps, quick checks, focused test runs and Java import cleanup.",
+  "author": {
+    "name": "BenjaminGROISNE",
+    "url": "https://github.com/BenjaminGROISNE"
+  },
+  "skills": "./skills/"
+}

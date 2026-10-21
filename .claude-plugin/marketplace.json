@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "phased-workflow",
+  "description": "A phased, review-before-commit way of working with Claude Code, for any project.",
+  "owner": {
+    "name": "BenjaminGROISNE",
+    "url": "https://github.com/BenjaminGROISNE"
+  },
+  "plugins": [
+    {
+      "name": "phased-workflow",
+      "description": "Working rules, phase recaps, quick checks, focused test runs and Java import cleanup.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
